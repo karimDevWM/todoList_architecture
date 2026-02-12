@@ -1,11 +1,20 @@
 /**
  * @class Model
- * Model layer backed by Todo and Category entities.
+ * Model layer backed by TodoManager singleton and Category entities.
  */
 class Model {
     constructor() {
         this.onTodoListChanged = () => {};
-        this._todos = this._loadFromStorage();
+        this.todoManager = TodoManager.getInstance();
+        
+        // Subscribe to TodoManager changes
+        this.todoManager.subscribe((todos) => {
+            this._commit();
+        });
+        
+        // Load initial data from storage
+        const storedTodos = this._loadFromStorage();
+        this.todoManager.loadTodos(storedTodos);
     }
 
     get todos() {
@@ -13,38 +22,24 @@ class Model {
     }
 
     addTodo(todoText, categoryTitle = '') {
-        const nextId = this._todos.length > 0 ? this._todos[this._todos.length - 1].id + 1 : 1;
-        const todo = new Todo({ id: nextId, title: todoText, complete: false });
-        if (categoryTitle.trim()) {
-            todo.category = new Category({ title: categoryTitle });
+        try {
+            this.todoManager.addTodo(todoText, categoryTitle);
+        } catch (error) {
+            console.error('Failed to add todo:', error.message);
+            throw error;
         }
-        this._todos.push(todo);
-        this._commit();
     }
 
     editTodo(id, updatedText) {
-        this._todos = this._todos.map((todo) => {
-            if (todo.id === id) {
-                todo.title = updatedText;
-            }
-            return todo;
-        });
-        this._commit();
+        this.todoManager.updateTodo(id, updatedText);
     }
 
     deleteTodo(id) {
-        this._todos = this._todos.filter((todo) => todo.id !== id);
-        this._commit();
+        this.todoManager.deleteTodo(id);
     }
 
     toggleTodo(id) {
-        this._todos = this._todos.map((todo) => {
-            if (todo.id === id) {
-                todo.complete = !todo.complete;
-            }
-            return todo;
-        });
-        this._commit();
+        this.todoManager.toggleTodo(id);
     }
 
     bindTodoListChanged(callback) {
@@ -58,7 +53,8 @@ class Model {
     }
 
     _serializeTodos() {
-        return this._todos.map((todo) => ({
+        const todos = this.todoManager.getAllTodos();
+        return todos.map((todo) => ({
             id: todo.id,
             text: todo.title,
             complete: todo.complete,
@@ -76,5 +72,13 @@ class Model {
             }
             return todo;
         });
+    }
+    
+    /**
+     * Get statistics from TodoManager
+     * @returns {Object}
+     */
+    getStatistics() {
+        return this.todoManager.getStatistics();
     }
 }
