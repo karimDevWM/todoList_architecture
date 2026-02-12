@@ -5,7 +5,8 @@
  */
 
 class View {
-    constructor() {
+    constructor(taskRenderer = new ListTaskRenderer()) {
+        this.taskRenderer = taskRenderer;
         this.app = this.getElement('#root')
         this.form = this.createElement('form')
         this.input = this.createElement('input')
@@ -75,60 +76,8 @@ class View {
     }
 
     displayTodos(todos) {
-        // Delete all nodes
-        while (this.todoList.firstChild) {
-            this.todoList.removeChild(this.todoList.firstChild)
-        }
-
-        // Show default message
-        if (todos.length === 0) {
-            const p = this.createElement('p')
-            p.textContent = 'Nothing to do! Add a task?'
-            this.todoList.append(p)
-        } else {
-            // Create nodes
-            todos.forEach(todo => {
-                const li = this.createElement('li')
-                li.id = todo.id
-
-                const checkbox = this.createElement('input')
-                checkbox.type = 'checkbox'
-                checkbox.checked = todo.complete
-
-                const span = this.createElement('span')
-                span.contentEditable = true
-                span.classList.add('editable')
-
-                if (todo.complete) {
-                    const strike = this.createElement('s')
-                    strike.textContent = todo.text
-                    span.append(strike)
-                } else {
-                    span.textContent = todo.text
-                }
-
-                const deleteButton = this.createElement('button', 'delete')
-                deleteButton.textContent = 'Delete'
-
-                let badge = null
-                if (todo.category && todo.category.title) {
-                    badge = this.createElement('span', 'category')
-                    badge.textContent = todo.category.title
-                    if (todo.category.color) {
-                        badge.style.backgroundColor = todo.category.color
-                    }
-                }
-
-                if (badge) {
-                    li.append(checkbox, span, badge, deleteButton)
-                } else {
-                    li.append(checkbox, span, deleteButton)
-                }
-
-                // Append nodes
-                this.todoList.append(li)
-            })
-        }
+        // Delegate rendering to the abstract TaskRenderer
+        this.taskRenderer.render(todos, this.todoList);
 
         // Debugging
         console.log(todos)
