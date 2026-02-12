@@ -104,7 +104,8 @@ li span.editable:focus {
   background: rgba(179, 207, 255, 0.52)
 }
 
-li span.category {
+li span.category,
+span.category {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.5rem;
@@ -115,4 +116,208 @@ li span.category {
   border: 2px solid transparent;
   min-width: auto;
   width: auto;
+}
+
+/* View selector styles */
+.view-selector {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.view-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+/* Card View Styles */
+.card-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.task-card {
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.2s;
+}
+
+.task-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.task-card.completed {
+  opacity: 0.7;
+  background: #f5f5f5;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.card-checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.card-body {
+  margin-bottom: 1rem;
+  min-height: 60px;
+}
+
+.card-text {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+
+.card-text:hover {
+  background: rgba(179, 215, 255, 0.2);
+}
+
+.card-text:focus {
+  outline: 0;
+  border: 2px solid #007bff;
+  background: rgba(179, 207, 255, 0.3);
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.empty-card {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Table View Styles */
+.table-view {
+  padding: 0;
+  list-style: none;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.task-table th {
+  background: #007bff;
+  color: white;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.task-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.task-table tr:last-child td {
+  border-bottom: none;
+}
+
+.task-table tr:hover {
+  background: #f8f9fa;
+}
+
+.task-table tr.completed-row {
+  opacity: 0.6;
+  background: #f5f5f5;
+}
+
+.task-table td:first-child {
+  width: 50px;
+  text-align: center;
+}
+
+.task-table td:nth-child(3) {
+  width: 150px;
+  text-align: center;
+}
+
+.task-table td:last-child {
+  width: 120px;
+  text-align: center;
+}
+
+/* Compact View Styles */
+.compact-view {
+  padding: 0;
+  list-style: none;
+}
+
+.compact-task {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border-left: 3px solid #007bff;
+  transition: background 0.2s;
+}
+
+.compact-task:hover {
+  background: #e9ecef;
+}
+
+.compact-checkbox {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.compact-label {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.compact-text {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+}
+
+.compact-text:hover {
+  background: rgba(179, 215, 255, 0.3);
+}
+
+.compact-text:focus {
+  outline: 0;
+  border: 1px solid #007bff;
+  background: rgba(179, 207, 255, 0.4);
 }
